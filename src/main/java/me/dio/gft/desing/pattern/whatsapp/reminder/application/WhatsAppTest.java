@@ -10,25 +10,29 @@ public class WhatsAppTest {
     // Find your Account Sid and Token at twilio.com/console
     public static final String ACCOUNT_SID = "account_sid";
     public static final String AUTH_TOKEN = "auth_token";
+    public static final String YOUR_NUMBER = "+5585999999999";
+    public static final String TWILIO_NUMBER = "+101999999999";
+    public static final String URI_TO_CALL = "https://timberwolf-mastiff-9776.twil.io/demo-reply";
+    public static final MessageProxy messageProxy = new MessageProxy();
 
     public static void main(String[] args) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        sendMessage("Message: Last Message sent on "+LocalDateTime.now().toString());
+        sendMessage("Message: Last Message sent on " + LocalDateTime.now().toString());
         showMessages();
-        sendMessage("Message: Next Message sent on "+LocalDateTime.now().toString());
+        sendMessage("Message: Next Message sent on " + LocalDateTime.now().toString());
         showMessages();
     }
 
     private static void sendMessage(String msg) {
         Message message = Message.creator(
-                        new com.twilio.type.PhoneNumber("whatsapp:+your number"),
-                        new com.twilio.type.PhoneNumber("whatsapp:+twilio number"),
+                        new com.twilio.type.PhoneNumber("whatsapp:"+YOUR_NUMBER),
+                        new com.twilio.type.PhoneNumber("whatsapp:"+TWILIO_NUMBER),
                         msg)
                 .create();
     }
 
-    private static void showMessages(){
-        for(String s:MessageProxy.getMessages(ACCOUNT_SID)){
+    private static void showMessages() {
+        for (String s : messageProxy.getMessages(ACCOUNT_SID, YOUR_NUMBER, URI_TO_CALL)) {
             System.out.println(s);
         }
     }
